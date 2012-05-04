@@ -1,53 +1,96 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
-	<head>
-			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-			<title>PrettyPrint</title>
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>PrettyPrint</title>
 
-			<style type="text/css">
-				body {background:#EEE;color:#222;font:0.8em Arial,Verdana,Sans-Serif;margin:0;padding:20px;}
-				#debug {
-					width: 700px;
-				}
-			</style>
-	</head>
-	<body>
-		
-		<!-- prettyPrint demo -->
-		<div id="debug"></div>
-		
-		<script src="prettyprint.js"></script>
-		<script>
-		
-			var randomObject = {
-				life: 42.01,
-				r1: new RegExp('\\$..?[0-5]+'),
-				r2: /foo(.+?)$/,
-				funky: function(foo, bib, bab) {
-					if (foo !== bib) {
-                        console.log('Error: ', '...');               
+      <style type="text/css">
+        body {background:#EEE;color:#222;font:0.8em Arial,Verdana,Sans-Serif;margin:0;padding:20px;}
+        #debug {
+          width: 700px;
+        }
+      </style>
+  </head>
+  <body>
+
+    <!-- prettyPrint demo -->
+    <div id="debug"></div>
+
+    <script src="prettyprint.js"></script>
+    <script>
+
+      var randomObject = {
+        life: 42.01,
+        r1: new RegExp('\\$..?[0-5]+'),
+        r2: /foo(.+?)$/,
+        _embedded: {
+            "person":{
+              name: "ze",
+              lastName: "frank",
+              powermoves: [
+                "bug-eyes",
+                "food finger"
+              ],
+              _links: {
+                "ze:frank:vids": [{
+                    href: "http://www.youtube.com/watch?v=wTPPw_7VHis&list=UUVpankR4HtoAVtYnFDUieYA&index=4&feature=plcp"
+                  },{
+                    href: "http://www.youtube.com/watch?v=e-Y9bqwVnIY&list=UUVpankR4HtoAVtYnFDUieYA&index=3&feature=plcp"
+                  }],
+                "ze:frank": {
+                  href: "http://ashow.zefrank.com/"
+                },
+                "self": {
+                  href: "/"
+                }
+              }
+            },
+            "http://www.google.com": {
+              href: "http://www.google.com/"
+            }
+        },
+        _links: {
+            "ze:frank:vids": [{
+                href: "http://www.youtube.com/watch?v=wTPPw_7VHis&list=UUVpankR4HtoAVtYnFDUieYA&index=4&feature=plcp"
+              },{
+                href: "http://www.youtube.com/watch?v=e-Y9bqwVnIY&list=UUVpankR4HtoAVtYnFDUieYA&index=3&feature=plcp"
+              }],
+            "ze:frank": {
+              href: "http://ashow.zefrank.com/"
+            },
+            "self": {
+              href: "/"
+            },
+            "http://www.google.com": {
+              href: "http://www.google.com/"
+            }
+        },
+        r2: /foo(.+?)$/,
+        funky: function(foo, bib, bab) {
+          if (foo !== bib) {
+                        console.log('Error: ', '...');
                     }
                     return RegExp(bab).exec(foo);
-				},
-				foo: {
-					prop: [1,2,3,{a:1}],
-					prop2: [
-						new Date(),
-						"som\"ething else"
-					]
-				},
-				domThing: document.body.firstChild
-			};
-			
-			randomObject.circularRef = randomObject;
-			
-			var ppTable = prettyPrint(randomObject);
+        },
+        foo: {
+          prop: [1,2,3,{a:1}],
+          prop2: [
+            new Date(),
+            "som\"ething else"
+          ]
+        },
+        domThing: document.body.firstChild
+      };
 
-			document.getElementById('debug').appendChild(ppTable);
-			
-		</script>
-		
-	</body>
+      randomObject.circularRef = randomObject;
+
+      var ppTable = prettyPrint(randomObject);
+
+      document.getElementById('debug').appendChild(ppTable);
+
+    </script>
+
+  </body>
 </html>
 
 
