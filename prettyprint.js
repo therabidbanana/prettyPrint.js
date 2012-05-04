@@ -516,11 +516,6 @@ var prettyPrint = (function(){
       hal : function(obj, depth, key){
         /* Checking depth + circular refs */
         /* Note, check for circular refs before depth; just makes more sense */
-        var stackKey = util.within(stack).is(obj);
-        if ( stackKey ) {
-          return util.common.circRef(obj, stackKey, settings);
-        }
-        stack[key||'TOP'] = obj;
         if (depth === settings.maxDepth) {
           return util.common.depthReached(obj, settings);
         }
@@ -532,7 +527,7 @@ var prettyPrint = (function(){
         delete obj['_embedded'];
 
         try {
-          table.addRow(['_embedded', typeDealer[ 'object' ](embeds, depth+1, key)], 'object');
+          if(embeds) table.addRow(['_embedded', typeDealer[ 'hal_links' ](embeds, depth+1, key, 'Embeds')], 'object');
         } catch(e) {
           /* Security errors are thrown on certain Window/DOM properties */
           if (window.console && window.console.log) {
@@ -540,7 +535,7 @@ var prettyPrint = (function(){
           }
         }
         try {
-          table.addRow(['_links', typeDealer[ 'hal_links' ](links, depth+1, key)], 'hal_links');
+          if(links) table.addRow(['_links', typeDealer[ 'hal_links' ](links, depth+1, key, 'Links')], 'hal_links');
         } catch(e) {
           /* Security errors are thrown on certain Window/DOM properties */
           if (window.console && window.console.log) {
@@ -569,7 +564,7 @@ var prettyPrint = (function(){
         return ret;
 
       },
-      hal_links : function(obj, depth, key) {
+      hal_links : function(obj, depth, key, title) {
 
         /* Checking depth  */
         if (depth === settings.maxDepth) {
@@ -582,7 +577,7 @@ var prettyPrint = (function(){
             count++;
           }
         }
-        var table = util.table(['Links ('+count+')', null],'links'),
+        var table = util.table([title+' ('+count+')', null],'links'),
           isEmpty = true;
 
         for (var i in obj) {
@@ -885,7 +880,7 @@ var prettyPrint = (function(){
 
     forceObject: false,
     maxDepth: 3,
-    maxArray: -1,  // default is unlimited
+    maxArray: 3,  // default is unlimited
     styles: {
       array: {
         th: {
