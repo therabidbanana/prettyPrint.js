@@ -3,9 +3,12 @@ prettyPrint.js
 
 &copy; [James Padolsey](http://james.padolsey.com)
 
-*prettyPrint.js* is an in-browser JavaScript variable dumper, similar in functionality to ColdFusion's cfdump tag. 
+*prettyPrint.js* is an in-browser JavaScript variable dumper, similar in functionality to ColdFusion's cfdump tag.
 
-First, a preview:
+This fork has been modified to specially handle _links and _embedded for HAL+JSON:
+
+<http://stateless.co/hal_specification.html>
+
 
 Preview:
 ---
