@@ -642,7 +642,13 @@ var prettyPrint = (function(){
       },
       mini_object : function(obj, depth, key) {
         var table = util.table(),
-          isEmpty = true;
+          isEmpty = true,
+             data = {};
+        data = {
+          "href": obj.href,
+          "href-template": obj['href-template'],
+          "rel": obj.rel
+        }
 
         for (var i in obj) {
           if (!obj.hasOwnProperty || obj.hasOwnProperty(i)) {
@@ -671,6 +677,14 @@ var prettyPrint = (function(){
             this.parentNode.appendChild(table.node);
           }
         );
+
+        if(window.jQuery && data){
+          for (var i in data) {
+            if (!data.hasOwnProperty || data.hasOwnProperty(i)) {
+              jQuery(table.node).attr("data-"+i, data[i]);
+            }
+          }
+        }
 
         hasRunOnce = true;
 
