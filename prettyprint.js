@@ -615,6 +615,10 @@ var prettyPrint = (function(){
           }
         }
 
+        if(window.jQuery){
+          jQuery(table.node).addClass('links');
+        }
+
         if (isEmpty) {
           table.addRow(['<small>[empty]</small>']);
         } else {
