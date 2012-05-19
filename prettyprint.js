@@ -452,6 +452,7 @@ var prettyPrint = (function(){
               this.parentNode.appendChild(table);
             }
           );
+        }
         else{
           return util.txt(item);
         }
