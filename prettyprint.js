@@ -443,7 +443,14 @@ var prettyPrint = (function(){
 
     var typeDealer = {
       string : function(item){
-        return util.txt('"' + util.shorten(item.replace(/"/g,'\\"')) + '"');
+        var table = util.txt('"'+item +'"');
+        return util.expander(
+          '"' + util.shorten(item.replace(/"/g,'\\"')) + '"',
+          'Click to show more',
+          function() {
+            this.parentNode.appendChild(table);
+          }
+        );
       },
       number : function(item) {
         return util.txt(item);
