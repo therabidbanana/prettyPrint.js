@@ -443,9 +443,9 @@ var prettyPrint = (function(){
 
     var typeDealer = {
       string : function(item){
-        var table = util.txt('"'+item +'"');
+        var table = util.txt(item);
         return util.expander(
-          '"' + util.shorten(item.replace(/"/g,'\\"')) + '"',
+          util.shorten(item.replace(/"/g,'\\"')),
           'Click to show more',
           function() {
             this.parentNode.appendChild(table);
