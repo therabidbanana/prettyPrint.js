@@ -539,7 +539,7 @@ var prettyPrint = (function(){
         delete obj['_embedded'];
 
         try {
-          if(embeds) table.addRow(['_embedded', typeDealer[ 'hal_links' ](embeds, depth+1, key, 'Embeds')], 'object');
+          if(embeds) table.addRow([typeDealer[ 'hal_links' ](embeds, depth+1, key, 'Embeds')], 'object');
         } catch(e) {
           /* Security errors are thrown on certain Window/DOM properties */
           if (window.console && window.console.log) {
@@ -547,7 +547,7 @@ var prettyPrint = (function(){
           }
         }
         try {
-          if(links) table.addRow(['_links', typeDealer[ 'hal_links' ](links, depth+1, key, 'Links')], 'hal_links');
+          if(links) table.addRow([typeDealer[ 'hal_links' ](links, depth+1, key, 'Links')], 'hal_links');
         } catch(e) {
           /* Security errors are thrown on certain Window/DOM properties */
           if (window.console && window.console.log) {
@@ -555,7 +555,7 @@ var prettyPrint = (function(){
           }
         }
         try {
-          table.addRow(['', typeDealer[ 'object' ](obj, depth+1, key)], 'object');
+          table.addRow([typeDealer[ 'object' ](obj, depth+1, key)], 'object');
         } catch(e) {
           /* Security errors are thrown on certain Window/DOM properties */
           if (window.console && window.console.log) {
