@@ -539,7 +539,12 @@ var prettyPrint = (function(){
         delete obj['_embedded'];
 
         try {
-          if(embeds) table.addRow([typeDealer[ 'hal_links' ](embeds, depth+1, key, 'Embeds')], 'object');
+          if(embeds){
+            table.addRow([typeDealer[ 'hal_links' ](embeds, depth+1, key, 'Embeds')], 'object');
+            if(window.jQuery){
+              jQuery(table.node).children('tbody').children('tr:last').children('table').addClass('embeds');
+            }
+          }
         } catch(e) {
           /* Security errors are thrown on certain Window/DOM properties */
           if (window.console && window.console.log) {
