@@ -553,7 +553,7 @@ var prettyPrint = (function(){
 
         try {
           if(embeds && !util.isEmpty(embeds)){
-            table.addRow([typeDealer[ 'hal_links' ](embeds, depth, key, 'Embeds')], 'object');
+            table.addRow([typeDealer[ 'hal_embed' ](embeds, depth, key, 'Embeds')], 'object');
           }
         } catch(e) {
           /* Security errors are thrown on certain Window/DOM properties */
@@ -563,7 +563,7 @@ var prettyPrint = (function(){
         }
         try {
           if(template && !util.isEmpty(template)){
-            table.addRow([typeDealer[ 'hal_links' ](template, depth, key, 'Template')], 'object');
+            table.addRow([typeDealer[ 'hal_embed' ](template, depth, key, 'Template')], 'object');
           }
         } catch(e) {
           /* Security errors are thrown on certain Window/DOM properties */
@@ -586,6 +586,70 @@ var prettyPrint = (function(){
           if (window.console && window.console.log) {
             console.log(e.message);
           }
+        }
+
+        var ret = (settings.expanded || hasRunOnce) ? table.node : util.expander(
+          util.stringify(obj),
+          'Click to show more',
+          function() {
+            this.parentNode.appendChild(table.node);
+          }
+        );
+
+        hasRunOnce = true;
+
+        return ret;
+
+      },
+      hal_embed : function(obj, depth, key, title) {
+
+        /* Checking depth  */
+        if (depth === settings.maxDepth) {
+          return util.common.depthReached(obj, settings);
+        }
+
+        var count = 0;
+        for (var i in obj) {
+          if (!obj.hasOwnProperty || obj.hasOwnProperty(i)) {
+            count++;
+          }
+        }
+        var table = util.table([title+' ('+count+')', null],'links'),
+          isEmpty = true;
+
+        for (var i in obj) {
+          if (!obj.hasOwnProperty || obj.hasOwnProperty(i)) {
+            var item = obj[i],
+              type = util.type(item);
+            isEmpty = false;
+            try {
+              if(type == "array"){
+                table.addRow([i, typeDealer[ 'mini_array' ](item, depth+1, i)], 'mini_array');
+              }
+              else if(type == "object"){
+                table.addRow([i, typeDealer[ 'mini_object' ](item, depth+1, i)], 'mini_object');
+              }
+              else
+                table.addRow([i, typeDealer[ type ](item, depth+1, i)], type);
+            } catch(e) {
+              /* Security errors are thrown on certain Window/DOM properties */
+              if (window.console && window.console.log) {
+                console.log(e.message);
+              }
+            }
+          }
+        }
+
+        if(window.jQuery){
+          jQuery(table.node).addClass('embed');
+        }
+
+        if (isEmpty) {
+          table.addRow(['<small>[empty]</small>']);
+        } else {
+          table.thead.appendChild(
+            util.hRow(['key','val'], 'colHeader')
+          );
         }
 
         var ret = (settings.expanded || hasRunOnce) ? table.node : util.expander(
