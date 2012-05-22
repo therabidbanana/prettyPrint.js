@@ -69,7 +69,7 @@ var prettyPrint = (function(){
 
     },
 
-    isEmpty: function(obj){
+    isEmpty: function(ob){
       for(var i in ob){ if(ob.hasOwnProperty(i)){return false;}}
       return true;
     },
@@ -540,7 +540,13 @@ var prettyPrint = (function(){
 
         var table = util.table(['Hal', null],'hal'),
           isEmpty = true;
-        var links = obj._links, embeds = obj._embedded, template = obj._template;
+        if(obj._links)
+          var links = obj._links;
+        if(obj._embedded)
+          var embeds = obj._embedded;
+        if(obj._template)
+          var template = obj._template;
+
         delete obj['_links'];
         delete obj['_embedded'];
         delete obj['_template'];
