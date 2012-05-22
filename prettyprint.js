@@ -534,12 +534,21 @@ var prettyPrint = (function(){
 
         var table = util.table(['Hal', null],'hal'),
           isEmpty = true;
-        var links = obj._links, embeds = obj._embedded;
+        var links = obj._links, embeds = obj._embedded, template = obj._template;
         delete obj['_links'];
         delete obj['_embedded'];
+        delete obj['_template'];
 
         try {
           if(embeds) table.addRow([typeDealer[ 'hal_links' ](embeds, depth+1, key, 'Embeds')], 'object');
+        } catch(e) {
+          /* Security errors are thrown on certain Window/DOM properties */
+          if (window.console && window.console.log) {
+            console.log(e.message);
+          }
+        }
+        try {
+          if(embeds) table.addRow([typeDealer[ 'hal_links' ](template, depth+1, key, 'Template')], 'object');
         } catch(e) {
           /* Security errors are thrown on certain Window/DOM properties */
           if (window.console && window.console.log) {
