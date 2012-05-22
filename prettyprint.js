@@ -69,6 +69,11 @@ var prettyPrint = (function(){
 
     },
 
+    isEmpty: function(obj){
+      for(var i in ob){ if(ob.hasOwnProperty(i)){return false;}}
+      return true;
+    },
+
     applyCSS: function(el, styles) {
       /* Applies CSS to a single element */
       for (var prop in styles) {
@@ -525,6 +530,7 @@ var prettyPrint = (function(){
       jquery : function(obj, depth, key) {
         return typeDealer['array'](obj, depth, key, true);
       },
+
       hal : function(obj, depth, key){
         /* Checking depth + circular refs */
         /* Note, check for circular refs before depth; just makes more sense */
@@ -540,7 +546,9 @@ var prettyPrint = (function(){
         delete obj['_template'];
 
         try {
-          if(embeds) table.addRow([typeDealer[ 'hal_links' ](embeds, depth, key, 'Embeds')], 'object');
+          if(embeds && !util.isEmpty(embeds)){
+            table.addRow([typeDealer[ 'hal_links' ](embeds, depth, key, 'Embeds')], 'object');
+          }
         } catch(e) {
           /* Security errors are thrown on certain Window/DOM properties */
           if (window.console && window.console.log) {
@@ -548,7 +556,9 @@ var prettyPrint = (function(){
           }
         }
         try {
-          if(embeds) table.addRow([typeDealer[ 'hal_links' ](template, depth, key, 'Template')], 'object');
+          if(template && !util.isEmpty(template)){
+            table.addRow([typeDealer[ 'hal_links' ](template, depth, key, 'Template')], 'object');
+          }
         } catch(e) {
           /* Security errors are thrown on certain Window/DOM properties */
           if (window.console && window.console.log) {
